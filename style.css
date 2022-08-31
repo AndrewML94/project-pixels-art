@@ -4,6 +4,7 @@
 
 body {
   font-family: 'Silkscreen', cursive;
+  background-color: #e9fbee;
 }
 
 #title {
@@ -19,6 +20,7 @@ body {
   align-items: center;
   border: solid 1px black;
   padding: 30px;
+  background-color: #def9e5;
 }
 
 .color {
@@ -46,4 +48,13 @@ body {
 
 button {
   margin-left: 15px;
+  background-color: gray;
+  color: white;
+  border-radius: 4px;
+  font-family: 'Silkscreen', cursive;
+  box-shadow: none;
+}
+
+button:hover {
+  opacity: 75%;
 }
