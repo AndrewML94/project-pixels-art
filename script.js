@@ -1,5 +1,9 @@
 const button = document.getElementById('button-random-color');
 const div = document.querySelectorAll('.color');
+div[0].style.backgroundColor = '#000000';
+div[1].style.backgroundColor = '#FF0000';
+div[2].style.backgroundColor = '#008000';
+div[3].style.backgroundColor = '#0000FF';
 const hexadecimal = '0123456789ABCDEF';
 
 function changeButtonColor() {
@@ -24,18 +28,31 @@ function changeButtonColor() {
   }
 }
 
-button.addEventListener('click', changeButtonColor) 
+button.addEventListener('click', changeButtonColor);
 
 function changeClass(event) {
   for (let index = 0; index < div.length; index += 1) {
     if (div[index].classList.contains('selected')) {
-      div[index].classList.remove('selected')
+      div[index].classList.remove('selected');
     }
-    event.target.classList.add('selected') 
+    event.target.classList.add('selected');
   }
 }
 
-div[0].addEventListener('click', changeClass)
-div[1].addEventListener('click', changeClass)
-div[2].addEventListener('click', changeClass)
-div[3].addEventListener('click', changeClass)
+div[0].addEventListener('click', changeClass);
+div[1].addEventListener('click', changeClass);
+div[2].addEventListener('click', changeClass);
+div[3].addEventListener('click', changeClass);
+
+const divPixel = document.querySelectorAll('.pixel');
+for (let index = 0; index < divPixel.length; index += 1) {
+  divPixel[index].addEventListener('click', function(color) {
+    for (let index = 0; index < div.length; index++) {
+      if (div[index].classList.contains('selected')) {
+        color.target.style.backgroundColor = div[index].style.backgroundColor;
+      }
+    }
+  })
+}
+
+
