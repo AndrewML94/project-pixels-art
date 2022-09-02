@@ -30,6 +30,22 @@ body {
   display: inline-block;
 }
 
+#color1 {
+  background-color: #000000;
+}
+
+#color2 {
+  background-color: #FF0000;
+}
+
+#color3 {
+  background-color: #008000;
+}
+
+#color4 {
+  background-color: #0000FF;
+}
+
 button {
   margin-left: 15px;
   background-color: #808080;
