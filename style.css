@@ -42,8 +42,12 @@ button:hover {
   opacity: 75%;
 }
 
+#clear-board {
+  display: flex;
+  margin: 20px auto 0;
+}
+
 #pixel-board {
-  border: solid 1px #000000;
   margin: auto 20px;
   display: grid;
   grid-template-columns: 40px 40px 40px 40px 40px;
