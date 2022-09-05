@@ -30,7 +30,7 @@ body {
   display: inline-block;
 }
 
-button {
+button, input {
   margin-left: 15px;
   background-color: #808080;
   color: white;
@@ -42,15 +42,16 @@ button:hover {
   opacity: 75%;
 }
 
-#clear-board {
+#clear-board, #setPixel {
   display: flex;
   margin: 20px auto 0;
+  justify-content: center;
 }
 
 #pixel-board {
   margin: auto 20px;
   display: grid;
-  grid-template-columns: 40px 40px 40px 40px 40px;
+  grid-template-columns: repeat(5, 40px);
   align-items: center;
   justify-content: center;
   padding: 33px;
