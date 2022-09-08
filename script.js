@@ -1,5 +1,12 @@
 const button = document.getElementById('button-random-color');
 const div = document.querySelectorAll('.color');
+let divPixel = document.getElementsByClassName('pixel');
+const buttonClear = document.getElementById('clear-board');
+let input = document.getElementById('board-size');
+const buttonAddBoard = document.querySelector('#generate-board');
+let divFather = document.querySelector('#pixel-board');
+let result;
+
 div[0].style.backgroundColor = '#000000';
 div[1].style.backgroundColor = '#FF0000';
 div[2].style.backgroundColor = '#008000';
@@ -28,7 +35,6 @@ function changeButtonColor() {
     }
   }
 }
-  
 button.addEventListener('click', changeButtonColor);
   
 function reloadColor() {
@@ -55,41 +61,65 @@ div[1].addEventListener('click', changeClass);
 div[2].addEventListener('click', changeClass);
 div[3].addEventListener('click', changeClass);
 
-// function savedBoard () {
-//   for (let index = 0; index < divPixel.length; index += 1) {
-//     localStorage.setItem('pixelBoard', JSON.stringify(divPixel));
-//   }
-//   let savedBoard = JSON.parse(localStorage.getItem('pixelBoard'));
-//   if (savedBoard !== null) {
-//     for (let index = 0; index < savedBoard.length; index += 1) {
-//       divPixel[index].style.backgroundColor = savedBoard;
-//     }
-//   }
-// }
-// savedBoard()
+function colorDivPixel() {
+  for (let index = 0; index < divPixel.length; index += 1) {
+    divPixel[index].addEventListener('click', function(color) {
+      for (let index = 0; index < div.length; index += 1) {
+        if (div[index].classList.contains('selected')) {
+          color.target.style.backgroundColor = div[index].style.backgroundColor;
+          savedColors()
+        }
+      }
+    })  
+  }
+}
+  
+function clearDivPixel() {
+  for (let index = 0; index < divPixel.length; index += 1) {
+    if (divPixel[index].style.backgroundColor !== 'white') {
+      divPixel[index].style.backgroundColor = 'white';
+    }
+  }
+}
+buttonClear.addEventListener('click', clearDivPixel)
 
-let input = document.getElementById('board-size');
-const buttonAddBoard = document.querySelector('#generate-board');
-let divFather = document.querySelector('#pixel-board');
-let result;
+function savedColors() {
+  let savedDrawing = [];
+  for (let index = 0; index < divPixel.length; index += 1) {
+    savedDrawing[index] = divPixel[index].style.backgroundColor;
+    localStorage.setItem('pixelBoard', JSON.stringify(savedDrawing));
+  }
+}
+
+function reloadDrawing() {
+  let restoreDrawing = JSON.parse(localStorage.getItem('pixelBoard'));
+  for (let index = 0; index < divPixel.length; index += 1) {
+    if (restoreDrawing !== null) {
+      for (let index = 0; index < restoreDrawing.length; index += 1) {
+        divPixel[index].style.backgroundColor = restoreDrawing[index];
+      }
+    } 
+  }
+}
 
 function changeInput() {
   if (input.value > 0 && input.value < 5) {
     result = 5 * 5;
-    console.log(result);
     return result
   } else if (input.value > 50) {
     result = 50 * 50;
-    console.log(result);
     return result
   } else if (input.value >= 5 || input.value <= 50) {
     result = input.value * input.value;
-    console.log(result);
     return result
   }
 }
+input.addEventListener('change', changeInput) 
 
-input.addEventListener('change', changeInput)
+function setGridTemplate() {
+  divFather.style.display = 'grid';
+}
+setGridTemplate()
 
 function firstDivs() {
   if (divFather.length === undefined) {
@@ -97,6 +127,8 @@ function firstDivs() {
       const initialDiv = document.createElement('div');
       initialDiv.classList.add('pixel');
       divFather.appendChild(initialDiv);
+      divFather.style.gridTemplateColumns = 'repeat(5, auto)';
+      colorDivPixel()
     }
   }
 }
@@ -110,27 +142,12 @@ function createPixel() {
       const createDiv = document.createElement('div');
       createDiv.classList.add('pixel');
       divFather.appendChild(createDiv);
-    }  
+      divFather.style.gridTemplateColumns = 'repeat(' + input.value + ', auto)';
+      colorDivPixel()
+    }
   }
 }
 buttonAddBoard.addEventListener('click', createPixel)
 
-const divPixel = document.querySelectorAll('.pixel');
-for (let index = 0; index < divPixel.length; index += 1) {
-  divPixel[index].addEventListener('click', function(color) {
-    for (let index = 0; index < div.length; index += 1) {
-      if (div[index].classList.contains('selected')) {
-        color.target.style.backgroundColor = div[index].style.backgroundColor;
-      }
-    }
-  })
-}
-  
-const buttonClear = document.getElementById('clear-board');
-buttonClear.addEventListener('click', function() {
-  for (let index = 0; index < divPixel.length; index += 1) {
-    if (divPixel[index].style.backgroundColor !== 'white') {
-      divPixel[index].style.backgroundColor = 'white';
-    }
-  }
-})
+window.onload = () => 
+reloadDrawing()
