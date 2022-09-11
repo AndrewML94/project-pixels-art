@@ -1,8 +1,8 @@
 const button = document.getElementById('button-random-color');
 const div = document.querySelectorAll('.color');
-let divPixel = document.getElementsByClassName('pixel');
+const divPixel = document.getElementsByClassName('pixel');
 const buttonClear = document.getElementById('clear-board');
-let input = document.getElementById('board-size');
+const input = document.getElementById('board-size');
 const buttonAddBoard = document.querySelector('#generate-board');
 let divFather = document.querySelector('#pixel-board');
 let result;
@@ -14,11 +14,11 @@ div[3].style.backgroundColor = '#0000FF';
 
 function changeButtonColor() {
   const hexadecimal = '0123456789ABCDEF';
-  let color = {
+  const color = {
     color1: '#',
     color2: '#',
-    color3: '#'
-  }
+    color3: '#',
+  };
   for (let index = 0; index < 6; index += 1) {
     color.color1 += hexadecimal[(Math.floor(Math.random() * 16))];
     color.color2 += hexadecimal[(Math.floor(Math.random() * 16))];
@@ -36,17 +36,16 @@ function changeButtonColor() {
   }
 }
 button.addEventListener('click', changeButtonColor);
-  
+
 function reloadColor() {
-  let savedBackgroundColor = JSON.parse(localStorage.getItem('colorPalette'));
+  const savedBackgroundColor = JSON.parse(localStorage.getItem('colorPalette'));
   if (savedBackgroundColor !== null) {
     div[1].style.backgroundColor = savedBackgroundColor.color1;
     div[2].style.backgroundColor = savedBackgroundColor.color2;
     div[3].style.backgroundColor = savedBackgroundColor.color3;
   }
 }
-reloadColor()
-  
+
 function changeClass(event) {
   for (let index = 0; index < div.length; index += 1) {
     if (div[index].classList.contains('selected')) {
@@ -55,7 +54,7 @@ function changeClass(event) {
     event.target.classList.add('selected');
   }
 }
-  
+
 div[0].addEventListener('click', changeClass);
 div[1].addEventListener('click', changeClass);
 div[2].addEventListener('click', changeClass);
@@ -117,9 +116,11 @@ function changeInput() {
 input.addEventListener('change', changeInput) 
 
 function setGridTemplate() {
-  divFather.style.display = 'grid';
+  let restorePixel = JSON.parse(localStorage.getItem('boardSize'));
+  if (restorePixel) {
+    divFather.style.gridTemplateColumns = restorePixel;
+  }
 }
-setGridTemplate()
 
 function firstDivs() {
   if (divFather.length === undefined) {
@@ -132,22 +133,28 @@ function firstDivs() {
     }
   }
 }
-firstDivs()
 
 function createPixel() {
-  if (input.value === '') {
-    alert('Board inválido!');
-  } else {
-    for (let index = 0; index < result - 25; index += 1) {
-      const createDiv = document.createElement('div');
-      createDiv.classList.add('pixel');
-      divFather.appendChild(createDiv);
-      divFather.style.gridTemplateColumns = 'repeat(' + input.value + ', auto)';
-      colorDivPixel()
-    }
+  for (let index = 0; index < result - 25; index += 1) {
+    const createDiv = document.createElement('div');
+    createDiv.classList.add('pixel');
+    divFather.appendChild(createDiv);
+    divFather.style.gridTemplateColumns = 'repeat(' + input.value + ', auto)';
+    localStorage.setItem('boardSize', JSON.stringify(divFather.style.gridTemplateColumns));
+    colorDivPixel()
   }
 }
-buttonAddBoard.addEventListener('click', createPixel)
 
-window.onload = () => 
+function alertEmpty() {
+  createPixel();
+  if (input.value === '') {
+    alert('Board inválido!');
+  }
+}
+buttonAddBoard.addEventListener('click', alertEmpty)
+
+reloadColor()
+firstDivs()
 reloadDrawing()
+setGridTemplate()
+createPixel()

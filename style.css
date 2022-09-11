@@ -3,7 +3,7 @@
 }
 
 body {
-  font-family: 'Silkscreen', cursive;
+  font-family: "Silkscreen", cursive;
   background-color: #e9fbee;
 }
 
@@ -32,10 +32,10 @@ body {
 
 button, input {
   margin-left: 15px;
-  background-color: #808080;
+  background-color: gray;
   color: white;
   border-radius: 4px;
-  font-family: 'Silkscreen', cursive;
+  font-family: "Silkscreen", cursive;
 }
 
 button:hover {
@@ -49,6 +49,7 @@ button:hover {
 }
 
 #pixel-board {
+  display: grid;
   margin: auto 20px;
   align-items: center;
   justify-content: center;
@@ -57,7 +58,7 @@ button:hover {
 
 .pixel {
   background-color: white;
-  border: solid 1px #000000;
+  border: solid 1px black;
   width: 40px;
   height: 40px;
 }
